@@ -1,16 +1,12 @@
-// ============================================================
-// TX Engine — Technologic Experience Engine
 // Objetivo:
 // Establecer un presupuesto estricto de memoria por frame,
 // evitando picos, fragmentación y comportamiento no determinista.
 // Cada frame sabe exactamente cuánta memoria puede consumir.
-// ------------------------------------------------------------
 // Filosofía:
 // - El frame es la unidad sagrada del motor
 // - Ningún subsistema puede exceder su cuota
 // - La memoria se gasta como tiempo: con presupuesto
 // - Todo es predecible, medible y reversible
-// ============================================================
 
 #include <cstdint>
 #include <cstring>
@@ -18,17 +14,11 @@
 namespace TX
 {
 
-// ------------------------------------------------------------
 // Constantes
-// ------------------------------------------------------------
-
 constexpr uint64_t KB = 1024;
 constexpr uint64_t MB = 1024 * KB;
 
-// ------------------------------------------------------------
 // Categorías de gasto por frame
-// ------------------------------------------------------------
-
 enum class FrameMemoryDomain : uint8_t
 {
     Geometry,
@@ -42,20 +32,14 @@ enum class FrameMemoryDomain : uint8_t
     Count
 };
 
-// ------------------------------------------------------------
 // Presupuesto por dominio
-// ------------------------------------------------------------
-
 struct FrameMemoryBudget
 {
     uint64_t MaxBytes;
     uint64_t UsedBytes;
 };
 
-// ------------------------------------------------------------
 // Sistema principal
-// ------------------------------------------------------------
-
 class FrameMemoryBudgetSystem
 {
 public:
@@ -140,4 +124,5 @@ private:
     FrameMemoryBudget Budgets[(uint8_t)FrameMemoryDomain::Count];
     uint64_t TotalBudget;
 };
+
 }
