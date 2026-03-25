@@ -1,17 +1,15 @@
-// ============================================================
 // TX Engine — Technologic Experience Engine
 // Técnica: Error Budget Management System (EBMS)
-// ------------------------------------------------------------
+
 // Objetivo:
 // Gestionar el "error visual aceptable" por frame y por sistema
 // para maximizar rendimiento sin degradación perceptible.
-// ------------------------------------------------------------
+
 // Filosofía:
 // - El ojo humano tolera error si es coherente y estable
 // - No todo error es igual (espacial, temporal, perceptual)
 // - El motor decide cuánto error puede permitirse
 // - Cada subsistema consume error como un presupuesto
-// ============================================================
 
 #include <cstdint>
 #include <cmath>
