@@ -2,7 +2,7 @@
 // Establecer un presupuesto estricto de memoria por frame,
 // evitando picos, fragmentación y comportamiento no determinista.
 // Cada frame sabe exactamente cuánta memoria puede consumir.
-// Filosofía:
+
 // - El frame es la unidad sagrada del motor
 // - Ningún subsistema puede exceder su cuota
 // - La memoria se gasta como tiempo: con presupuesto
@@ -13,7 +13,6 @@
 
 namespace TX
 {
-
 // Constantes
 constexpr uint64_t KB = 1024;
 constexpr uint64_t MB = 1024 * KB;
@@ -65,17 +64,15 @@ public:
     }
 
     // Reinicio por frame
-    void BeginFrame()
-    {
+    void BeginFrame(){
         for (uint8_t i = 0; i < (uint8_t)FrameMemoryDomain::Count; ++i)
             Budgets[i].UsedBytes = 0;
     }
 
     // Solicitud de memoria
-    bool Request(FrameMemoryDomain domain, uint64_t bytes)
-    {
+    bool Request(FrameMemoryDomain domain, uint64_t bytes){
         FrameMemoryBudget& budget = Budgets[(uint8_t)domain];
-
+        
         if (budget.UsedBytes + bytes > budget.MaxBytes)
             return false;
 
@@ -84,29 +81,25 @@ public:
     }
 
     // Consulta de estado
-    uint64_t GetRemaining(FrameMemoryDomain domain) const
-    {
+    uint64_t GetRemaining(FrameMemoryDomain domain) const{
         const FrameMemoryBudget& budget = Budgets[(uint8_t)domain];
         return (budget.MaxBytes > budget.UsedBytes)
              ? (budget.MaxBytes - budget.UsedBytes)
              : 0;
     }
 
-    float GetUsageRatio(FrameMemoryDomain domain) const
-    {
+    float GetUsageRatio(FrameMemoryDomain domain) const{
         const FrameMemoryBudget& budget = Budgets[(uint8_t)domain];
         return (float)budget.UsedBytes / (float)budget.MaxBytes;
     }
 
     // Evaluación de riesgo
-    bool IsDomainCritical(FrameMemoryDomain domain) const
-    {
+    bool IsDomainCritical(FrameMemoryDomain domain) const{
         return GetUsageRatio(domain) > 0.9f;
     }
 
     // Presupuesto total restante
-    uint64_t GetTotalRemaining() const
-    {
+    uint64_t GetTotalRemaining() const{
         uint64_t used = 0;
         for (uint8_t i = 0; i < (uint8_t)FrameMemoryDomain::Count; ++i)
             used += Budgets[i].UsedBytes;
@@ -124,5 +117,4 @@ private:
     FrameMemoryBudget Budgets[(uint8_t)FrameMemoryDomain::Count];
     uint64_t TotalBudget;
 };
-
 }
